@@ -1,0 +1,62 @@
+{
+    "name": "XRAction",
+    "maps": [
+        {
+            "name": "Lift",
+            "id": "19f63a08-efc7-4932-88d2-82ba0c0e8053",
+            "actions": [
+                {
+                    "name": "ChopstickLeftMove",
+                    "type": "Button",
+                    "id": "5ff54b5b-b225-4e30-b319-c502c410e366",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "ee74ec64-e8f1-47cc-87e7-fd36d44f37f9",
+                    "path": "<XRController>{LeftHand}/{PrimaryButton}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChopstickLeftMove",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "TestFire",
+            "id": "f3fdf67a-fd58-4562-8a80-f30e52443470",
+            "actions": [
+                {
+                    "name": "Test Shooting",
+                    "type": "Button",
+                    "id": "d3e8cfd1-84ae-477c-afe0-6618e084fc0a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "891a86ad-babf-49bc-af89-cd07d983d06f",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Test Shooting",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
