@@ -12,9 +12,6 @@ public class Gun : MonoBehaviour
 
     [SerializeField] InputActionReference triggerAction;
 
-    [SerializeField] float range = 50f;
-    [SerializeField] float damage = 10f;
-
     [SerializeField] Transform rightHandTransform;
 
     private void Start()
