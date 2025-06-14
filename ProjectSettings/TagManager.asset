@@ -9,6 +9,7 @@ TagManager:
   - Ground
   - MonsterTarget
   - Enemy
+  - Knight
   layers:
   - Default
   - TransparentFX

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,20 +13,40 @@ public abstract class Monster : MonoBehaviour, IDamageable
 
     protected bool isDead = false;
 
+    public event Action OnMonsterDie;
+    protected Animator animator;
+
+    [SerializeField] private float targetRefreshInterval = 1f;
+    private float targetRefreshTimer = 0f;
+
     protected virtual void Start()
     {
-        GameObject monsterTarget = GameObject.FindWithTag("MonsterTarget");
-        if (monsterTarget != null) target = monsterTarget.transform;
+        FindNewTarget();
 
         agent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
     }
 
     protected virtual void Update()
     {
         if (isDead) return;
 
-        if (target == null) FindNewTarget();
-        if (target != null) MoveToTarget();
+        targetRefreshTimer += Time.deltaTime;
+        if (targetRefreshTimer >= targetRefreshInterval)
+        {
+            targetRefreshTimer = 0f;
+            FindNewTarget();
+        }
+
+        if (target != null)
+        {
+            MoveToTarget();
+
+            if (agent != null && animator != null)
+            {
+                animator.SetFloat("Speed", agent.velocity.magnitude);
+            }
+        }
     }
 
     public virtual void TakeDamage(float amount)
@@ -45,12 +66,22 @@ public abstract class Monster : MonoBehaviour, IDamageable
         isDead = true;
         if (agent != null) agent.isStopped = true;
 
+        if (animator != null)
+        {
+            animator.SetBool("IsDead", true);
+        }
+
+        OnMonsterDie?.Invoke();
+
         Destroy(gameObject);
     }
 
     protected virtual void FindNewTarget() // target을 파괴하면 다른 target을 찾으로 이동
     {
-        GameObject[] targets = GameObject.FindGameObjectsWithTag("MonsterTarget");
+        List<GameObject> targets = new List<GameObject>();
+        targets.AddRange(GameObject.FindGameObjectsWithTag("MonsterTarget"));
+        targets.AddRange(GameObject.FindGameObjectsWithTag("Knight"));
+
 
         float closestDistance = Mathf.Infinity;
         Transform closest = null;

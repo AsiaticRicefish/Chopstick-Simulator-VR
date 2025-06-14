@@ -38,10 +38,11 @@ public class NormalMonster : Monster
             if (attackTimer >= attackInterval)
             {
                 attackTimer = 0f;
-                MonsterTarget monsterTarget = target.GetComponent<MonsterTarget>();
-                if (monsterTarget != null)
+                animator.SetTrigger("Attack");
+
+                if (target.TryGetComponent<IDamageable>(out var damageable))
                 {
-                    monsterTarget.TakeDamage(attackDamage);
+                    damageable.TakeDamage(attackDamage);
                 }
             }
         }
