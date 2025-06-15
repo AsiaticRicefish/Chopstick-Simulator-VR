@@ -2,41 +2,41 @@
     "name": "XRAction",
     "maps": [
         {
-            "name": "Lift",
-            "id": "19f63a08-efc7-4932-88d2-82ba0c0e8053",
+            "name": "VRJoystick",
+            "id": "22cbfc59-92f4-4cad-8dec-b51a36668d01",
             "actions": [
                 {
-                    "name": "ChopstickLeftMove",
-                    "type": "Button",
-                    "id": "5ff54b5b-b225-4e30-b319-c502c410e366",
-                    "expectedControlType": "",
+                    "name": "VR Joystick",
+                    "type": "Value",
+                    "id": "ea85168b-2326-4190-aab8-4420b1b18894",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
                 {
                     "name": "",
-                    "id": "ee74ec64-e8f1-47cc-87e7-fd36d44f37f9",
-                    "path": "<XRController>{LeftHand}/{PrimaryButton}",
+                    "id": "96badea4-9866-4f0e-bfee-a5526c3ff4e0",
+                    "path": "<XRController>{RightHand}/thumbstick",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "ChopstickLeftMove",
+                    "action": "VR Joystick",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
             ]
         },
         {
-            "name": "TestFire",
-            "id": "f3fdf67a-fd58-4562-8a80-f30e52443470",
+            "name": "Reload",
+            "id": "9bfe8f55-cc9d-47de-bcc3-c5539dd381c6",
             "actions": [
                 {
-                    "name": "Test Shooting",
+                    "name": "Reloading",
                     "type": "Button",
-                    "id": "d3e8cfd1-84ae-477c-afe0-6618e084fc0a",
+                    "id": "9d09be04-5f3f-4039-9b72-b3f25135a963",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -46,12 +46,80 @@
             "bindings": [
                 {
                     "name": "",
-                    "id": "891a86ad-babf-49bc-af89-cd07d983d06f",
-                    "path": "<Keyboard>/space",
+                    "id": "684f4540-0898-48b9-acc4-2452ecb309cf",
+                    "path": "<XRController>{RightHand}/{PrimaryButton}",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Test Shooting",
+                    "action": "Reloading",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "TeleportAction",
+            "id": "7fcd8c32-1c1a-4dd3-8332-18efb902974b",
+            "actions": [
+                {
+                    "name": "Teleport A",
+                    "type": "Button",
+                    "id": "a08fe433-9dbb-4a9f-bf19-e182b95bd80a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Teleport B",
+                    "type": "Button",
+                    "id": "25610285-c55c-4fcc-865b-ad1d37ce7586",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Teleport C",
+                    "type": "Button",
+                    "id": "64b99398-24fe-4fdd-977c-df5e106adc69",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "35ff1240-48db-4ca0-a10b-e3eedfd54910",
+                    "path": "<XRController>{LeftHand}/joystickClicked",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Teleport A",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "912cc0be-9f28-43ca-a481-eb0874eccc76",
+                    "path": "<XRController>{LeftHand}/{PrimaryButton}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Teleport B",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "99e3631d-15be-45cb-aefe-c34495069610",
+                    "path": "<XRController>{LeftHand}/{SecondaryButton}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Teleport C",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
