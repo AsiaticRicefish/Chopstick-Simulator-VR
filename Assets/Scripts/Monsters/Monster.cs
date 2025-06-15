@@ -64,7 +64,7 @@ public abstract class Monster : MonoBehaviour, IDamageable
     protected virtual void MonsterDie()
     {
         isDead = true;
-        if (agent != null) agent.isStopped = true;
+        if (agent != null && agent.isOnNavMesh) agent.isStopped = true;
 
         if (animator != null)
         {
