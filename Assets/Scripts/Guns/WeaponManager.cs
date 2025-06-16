@@ -14,7 +14,10 @@ public class WeaponManager : MonoBehaviour
 
     private GameObject currentWeapon;
     private float lastSwitchTime = 0f;
-  
+
+    [Header("UI")]
+    [SerializeField] GunUI gunUI;
+
 
     private void Start()
     {
@@ -68,11 +71,8 @@ public class WeaponManager : MonoBehaviour
         Transform grip = newWeapon.transform.Find("Grip");
         if (grip != null)
         {
-            Vector3 offsetPos = -grip.localPosition;
-            Quaternion offsetRot = Quaternion.Inverse(grip.localRotation);
-
-            newWeapon.transform.localPosition = offsetPos;
-            newWeapon.transform.localRotation = offsetRot;
+            newWeapon.transform.localPosition = -grip.localPosition;
+            newWeapon.transform.localRotation = Quaternion.Inverse(grip.localRotation);
         }
         else
         {
@@ -82,6 +82,10 @@ public class WeaponManager : MonoBehaviour
 
         currentWeapon = newWeapon;
 
-        Debug.Log($"¹«±â : {weapons[index].name}");
+        Gun gun = currentWeapon.GetComponent<Gun>();
+        if (gun != null && gunUI != null)
+        {
+            gunUI.SetGun(gun);
+        }
     }
 }

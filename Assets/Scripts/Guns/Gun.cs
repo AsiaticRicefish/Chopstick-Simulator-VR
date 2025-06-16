@@ -15,15 +15,15 @@ public class Gun : MonoBehaviour
 {
 
     [Header("General")]
-    [SerializeField] GunType gunType;
+    public GunType gunType;
     [SerializeField] Transform firePoint;
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] AudioSource gunSound;
     [SerializeField] InputActionReference triggerAction;
 
     [Header("Ammo")]
-    [SerializeField] int maxAmmo = 10;
-    private int currentAmmo;
+    public int maxAmmo = 10;
+    public int currentAmmo;
 
     [Header("Fire Control")]
     [SerializeField] float fireRate = 0.1f; // 연사 속도
@@ -32,7 +32,8 @@ public class Gun : MonoBehaviour
     [Header("Reload")]
     [SerializeField] float reloadTime = 2f;
     [SerializeField] InputActionReference reloadAction;
-    private bool isReloading = false;
+    [SerializeField] private AudioSource reloadSound;
+    public bool isReloading = false;
 
     private void Start()
     {
@@ -78,7 +79,7 @@ public class Gun : MonoBehaviour
     private IEnumerator Reloud()
     {
         isReloading = true;
-        Debug.Log("Reloding");
+        if (reloadSound != null) reloadSound.Play();
         yield return new WaitForSeconds(reloadTime);
         currentAmmo = maxAmmo;
         isReloading = false;
