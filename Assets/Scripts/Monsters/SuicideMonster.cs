@@ -9,15 +9,18 @@ public class SuicideMonster : Monster
     [SerializeField] float explodeDamage = 50f;
     [SerializeField] float explodeDelay = 1f;
 
+    private bool isExploding = false;
+
     protected override void MoveToTarget()
     {
-        if (isDead || target == null) return;
+        if (isDead || target == null || isExploding) return;
 
         float dist = Vector3.Distance(transform.position, target.position);
 
         // ÀÚÆø °Å¸® ¾ÈÀÌ¸é ÀÚÆø
         if (dist <= explodeRange)
         {
+            isExploding = true;
             StartCoroutine(ExplodeAfterDelay(explodeDelay));
             return;
         }
@@ -29,6 +32,12 @@ public class SuicideMonster : Monster
     private IEnumerator ExplodeAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
+
+        if (target == null)
+        {
+            MonsterDie();
+            yield break;
+        }
 
         if (target.TryGetComponent<IDamageable>(out var damageable))
         {
