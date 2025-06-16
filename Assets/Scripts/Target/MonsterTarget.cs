@@ -1,26 +1,90 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MonsterTarget : MonoBehaviour, IDamageable
 {
-    [SerializeField] public float targetHealth = 100f;
+    [SerializeField] public float maxHealth = 1000f;
+    private float currentHealth;
+
+    [Header("UI")]
+    [SerializeField] private Slider healthBar;
+    private Image fillImage;
+    [SerializeField] private TextMeshProUGUI destroyedText;
+
+    private bool isUnderAttack = false;
+
+    private void Start()
+    {
+        currentHealth = maxHealth;
+        UpdateUI();
+
+        currentHealth = maxHealth;
+        UpdateUI();
+
+        if (healthBar != null && healthBar.fillRect != null)
+        {
+            fillImage = healthBar.fillRect.GetComponent<Image>();
+        }
+    }
+
+    private void Update()
+    {
+        if (isUnderAttack && fillImage != null)
+        {
+            float alpha = Mathf.PingPong(Time.time * 4f, 1f);
+            fillImage.color = new Color(1f, 0f, 0f, alpha);
+        }
+    }
 
     public void TakeDamage(float amount)
     {
-        if (targetHealth < 0) return;
+        if (currentHealth <= 0f) return;
 
-        targetHealth -= amount;
-        targetHealth = Mathf.Max(targetHealth, 0);
+        currentHealth -= amount;
+        currentHealth = Mathf.Max(currentHealth, 0f);
+        UpdateUI();
 
-        Debug.Log($"현재 체력은 {targetHealth}");
-        if (targetHealth <= 0) GameOver();
+        isUnderAttack = true;
+        Invoke(nameof(StopBlinking), 1.5f);
+
+        if (currentHealth <= 0) TargetDestroy();
     }
 
-    private void GameOver()
+    private void StopBlinking()
     {
-        Debug.Log("게임오버");
-        Destroy(gameObject);
+        isUnderAttack = false;
+
+        if (fillImage != null) fillImage.color = Color.red;
+    }
+
+    private void UpdateUI()
+    {
+        if (healthBar != null)
+        {
+            healthBar.value = currentHealth / maxHealth;
+        }
+    }
+
+    private void TargetDestroy()
+    {
+        GameManager.Instance.OnDefenseDestroyed();
+
+        if (healthBar != null)
+            healthBar.gameObject.SetActive(false);
+
+        if (destroyedText != null)
+        {
+            destroyedText.text = "파괴됨";
+            destroyedText.color = Color.red;
+            destroyedText.gameObject.SetActive(true);
+        }
+
+        gameObject.tag = "Untagged";
+        Collider col = GetComponent<Collider>();
+        if (col != null) col.enabled = false;
     }
 
 }

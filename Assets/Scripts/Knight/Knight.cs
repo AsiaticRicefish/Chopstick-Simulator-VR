@@ -1,10 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.AI;
 public class Knight : MonoBehaviour, IDamageable
 {
-    [SerializeField] private float health = 100f;
+    [SerializeField] private HealthBarUI healthBar;
+    [SerializeField] private float health;
+    private float currentHealth;
+
     [SerializeField] private float Power = 10f;
     [SerializeField] private float attackRange = 1.5f;
     [SerializeField] private float attackInterval = 1.5f;
@@ -18,6 +22,12 @@ public class Knight : MonoBehaviour, IDamageable
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
+
+        currentHealth = health;
+
+        if (healthBar == null) healthBar = GetComponentInChildren<HealthBarUI>();
+
+        if (healthBar != null) healthBar.SetHealth(currentHealth ,health);
     }
 
     private void Update()
@@ -83,8 +93,11 @@ public class Knight : MonoBehaviour, IDamageable
 
     public void TakeDamage(float amount)
     {
-        health -= amount;
-        if (health <= 0)
+        currentHealth -= amount;
+
+        if (healthBar != null) healthBar.SetHealth(currentHealth, health);
+
+        if (currentHealth <= 0)
         {
             animator.SetTrigger("IsDead");
             StartCoroutine(DieAfterDelay(1f));
@@ -94,6 +107,9 @@ public class Knight : MonoBehaviour, IDamageable
     private IEnumerator DieAfterDelay(float delay)
     {
         agent.isStopped = true;
+
+        if (healthBar != null) Destroy(healthBar.gameObject);
+
         yield return new WaitForSeconds(delay);
         Destroy(gameObject);
     }

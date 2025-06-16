@@ -6,7 +6,9 @@ using UnityEngine.AI;
 
 public abstract class Monster : MonoBehaviour, IDamageable
 {
+    [SerializeField] private HealthBarUI healthBar;
     [SerializeField] public float health;
+    private float currentHealth;
 
     protected Transform target;
     protected NavMeshAgent agent;
@@ -25,6 +27,12 @@ public abstract class Monster : MonoBehaviour, IDamageable
 
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
+
+        currentHealth = health;
+
+        if (healthBar == null) healthBar = GetComponentInChildren<HealthBarUI>();
+
+        if (healthBar != null) healthBar.SetHealth(currentHealth ,health);
     }
 
     protected virtual void Update()
@@ -53,9 +61,11 @@ public abstract class Monster : MonoBehaviour, IDamageable
     {
         if (isDead) return;
 
-        health -= amount;
+        currentHealth -= amount;
 
-        if (health <= 0)
+        if (healthBar != null) healthBar.SetHealth(currentHealth, health);
+
+        if (currentHealth <= 0)
         {
             MonsterDie();
         }
@@ -70,6 +80,8 @@ public abstract class Monster : MonoBehaviour, IDamageable
         {
             animator.SetBool("IsDead", true);
         }
+
+        if (healthBar != null) Destroy(healthBar.gameObject);
 
         OnMonsterDie?.Invoke();
 

@@ -26,14 +26,6 @@ public class MonsterSpawn : MonoBehaviour
     private float timer = 0f;
     private float elapsedTime = 0f;
 
-    [SerializeField] private int maxMonsters = 10;
-    [SerializeField] private float overflowCountdownTime = 10f;
-
-    private List<GameObject> activeMonsters = new List<GameObject>();
-
-    private bool isOverflow = false;
-    private float overflowTimer = 0f;
-
     private List<MonsterType> availableMonsterTypes = new List<MonsterType> { MonsterType.Normal };
 
     private void Update()
@@ -48,31 +40,6 @@ public class MonsterSpawn : MonoBehaviour
         }
 
         UpdateMonster();
-
-        if (activeMonsters.Count > maxMonsters)
-        {
-            if (!isOverflow)
-            {
-                isOverflow = true;
-                overflowTimer = overflowCountdownTime;
-                Debug.Log("몬스터 수 초과");
-            }
-        }
-        else if (isOverflow)
-        {
-            isOverflow = false;
-            Debug.Log("몬스터 수 정상화");
-        }
-
-        if (isOverflow)
-        {
-            overflowTimer -= Time.deltaTime;
-            if (overflowTimer <= 0f)
-            {
-                Debug.Log("패배! 몬스터 수를 줄이지 못했음");
-            }
-        }
-        activeMonsters.RemoveAll(monster => monster == null);
     }
 
     private void SpawnMonster()
@@ -84,12 +51,12 @@ public class MonsterSpawn : MonoBehaviour
 
         GameObject spawned = Instantiate(prefab, spawnPoint.position, Quaternion.identity);
 
-        activeMonsters.Add(spawned);
+        GameManager.Instance.OnMonsterSpawned(spawned);
 
         Monster monster = spawned.GetComponent<Monster>();
         if (monster != null)
         {
-            monster.OnMonsterDie += () => activeMonsters.Remove(spawned);
+            monster.OnMonsterDie += () => GameManager.Instance.OnMonsterDied(spawned);
         }
     }
 
