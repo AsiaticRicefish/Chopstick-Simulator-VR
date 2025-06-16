@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -26,7 +27,9 @@ public class PlayerTeleport : MonoBehaviour
     private float lastTeleportTime = -Mathf.Infinity;
 
     private XROrigin xrOrigin;
-   
+    [Header("UI")]
+    [SerializeField] private TextMeshProUGUI cooldownText;
+
 
     private void Start()
     {
@@ -35,6 +38,11 @@ public class PlayerTeleport : MonoBehaviour
 
     private void Update()
     {
+        float timeLastTeleport = Time.time - lastTeleportTime;
+        float remainingCooldown = teleportCooldown - timeLastTeleport;
+
+        UpdateCooldownUI(remainingCooldown);
+
         if (Time.time - lastTeleportTime < teleportCooldown) return;
 
         if (teleportA.action.WasPressedThisFrame())
@@ -48,6 +56,18 @@ public class PlayerTeleport : MonoBehaviour
         else if (teleportC.action.WasPressedThisFrame())
         {
             TryTeleport("C");
+        }
+    }
+
+    private void UpdateCooldownUI(float remainingTime)
+    {
+        if (remainingTime > 0)
+        {
+            cooldownText.text = $"순간이동 쿨타임 {Mathf.CeilToInt(remainingTime)}초 남았습니다";
+        }
+        else
+        {
+            cooldownText.text = "";
         }
     }
 
