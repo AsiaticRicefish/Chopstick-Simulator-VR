@@ -565,7 +565,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 226551629}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.0000029802322}
+  m_LocalPosition: {x: 0, y: 0, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -600,7 +600,9 @@ MonoBehaviour:
     \uB04A\uC784\uC5C6\uC774 \uBAB0\uB824\uC62C \uC608\uC815\uC785\uB2C8\uB2E4!\n\uCD5C\uB300\uD55C
     \uB9CE\uC740 \uC2DC\uAC04\uB3D9\uC548 \uC0DD\uC874\uD558\uC2ED\uC2DC\uC624.\n\n\uD328\uBC30\uC870\uAC74\n1.
     \uD0C0\uC6CC \uB450 \uBC29\uC5B4\uC120\uC774 \uD568\uB77D\uB418\uB294 \uACBD\uC6B0\n2.
-    \uBAAC\uC2A4\uD130\uC758 \uC218\uAC00 \uB9CE\uC740 \uACBD\uC6B0"
+    \uBAAC\uC2A4\uD130\uC758 \uC218\uAC00 \uB9CE\uC740 \uACBD\uC6B0 (10\uB9C8\uB9AC
+    \uCD08\uACFC\uC778 \uACBD\uC6B0 10\uCD08 \uC774\uB0B4 \uBAAC\uC2A4\uD130 \uC218\uB97C
+    \uC870\uC808\uD558\uC2ED\uC2DC\uC624!)"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 377061b2843ccf947b6b561f25543273, type: 2}
   m_sharedMaterial: {fileID: 8862197593041242986, guid: 377061b2843ccf947b6b561f25543273, type: 2}
@@ -950,7 +952,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 30, y: -192}
+  m_AnchoredPosition: {x: 30, y: -99}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &352317375
@@ -973,10 +975,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC870\uC791\uBC95\n\uBC1C\uC0AC : Right Controller - Back\n\uC7AC\uC7A5\uC804
+  m_text: "\uC870\uC791\uBC95\n\uBC1C\uC0AC : Right Controller - Trigger\n\uC7AC\uC7A5\uC804
     : Right Controller - A\n\uBB34\uAE30 \uBCC0\uACBD : Right Controller - Joystic
     Up, Left, Right\n\uC704\uCE58\uBCC0\uACBD : Left Controller - Joystic click,
-    X, Y\n"
+    X, Y / \uC8FC\uC758! \uC704\uCE58\uBCC0\uACBD \uD6C4 10\uCD08\uAC04 \uC81C\uD55C\uB429\uB2C8\uB2E4!\n\uAC8C\uC784\uBA48\uCDA4
+    -Right Controller - Joystic click\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 377061b2843ccf947b6b561f25543273, type: 2}
   m_sharedMaterial: {fileID: 8862197593041242986, guid: 377061b2843ccf947b6b561f25543273, type: 2}
@@ -985,8 +988,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1003,8 +1006,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1511,7 +1514,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2661978654048545531, guid: 2833b78d11e6cec4b9fd2ed0ca262c05, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3124991079639546276, guid: 2833b78d11e6cec4b9fd2ed0ca262c05, type: 3}
       propertyPath: m_IsActive
@@ -1523,7 +1526,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3124991079639546279, guid: 2833b78d11e6cec4b9fd2ed0ca262c05, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.41
+      value: 1.229
       objectReference: {fileID: 0}
     - target: {fileID: 3124991079639546279, guid: 2833b78d11e6cec4b9fd2ed0ca262c05, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1647,7 +1650,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5035515601627346020, guid: 2833b78d11e6cec4b9fd2ed0ca262c05, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6464566428901756012, guid: 2833b78d11e6cec4b9fd2ed0ca262c05, type: 3}
       propertyPath: m_SizeDelta.x
@@ -1770,6 +1773,10 @@ PrefabInstance:
       value: XR Origin (XR Rig)
       objectReference: {fileID: 0}
     - target: {fileID: 7631967594025434571, guid: 2833b78d11e6cec4b9fd2ed0ca262c05, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7995182519011024525, guid: 2833b78d11e6cec4b9fd2ed0ca262c05, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -1929,7 +1936,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 2.42, y: 4.29}
+  m_AnchoredPosition: {x: 2.7, y: 4.29}
   m_SizeDelta: {x: 1800, y: 900}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &828353082
@@ -2381,8 +2388,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 210174514}
-  - {fileID: 352317374}
   - {fileID: 226551630}
+  - {fileID: 352317374}
   m_Father: {fileID: 1284474355}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2632,7 +2639,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 270, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -6.42, y: 4.29}
+  m_AnchoredPosition: {x: -6.62, y: 4.29}
   m_SizeDelta: {x: 1800, y: 900}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1305314428
