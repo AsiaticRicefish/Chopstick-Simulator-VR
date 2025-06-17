@@ -18,8 +18,8 @@ public abstract class Monster : MonoBehaviour, IDamageable
     public event Action OnMonsterDie;
     protected Animator animator;
 
-    [SerializeField] private float targetRefreshInterval = 1f;
-    private float targetRefreshTimer = 0f;
+    private float aggroHoldTime = 3f;
+    private float aggroTimer = 0f;
 
     protected virtual void Start()
     {
@@ -39,10 +39,12 @@ public abstract class Monster : MonoBehaviour, IDamageable
     {
         if (isDead) return;
 
-        targetRefreshTimer += Time.deltaTime;
-        if (targetRefreshTimer >= targetRefreshInterval)
+        if (aggroTimer > 0f)
         {
-            targetRefreshTimer = 0f;
+            aggroTimer -= Time.deltaTime;
+        }
+        else
+        {
             FindNewTarget();
         }
 
@@ -85,15 +87,18 @@ public abstract class Monster : MonoBehaviour, IDamageable
 
         OnMonsterDie?.Invoke();
 
+        StartCoroutine(DestroyAfterDelay(1f));
+    }
+
+    private IEnumerator DestroyAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
         Destroy(gameObject);
     }
 
-    protected virtual void FindNewTarget() // target을 파괴하면 다른 target을 찾으로 이동
+    protected virtual void FindNewTarget()
     {
-        List<GameObject> targets = new List<GameObject>();
-        targets.AddRange(GameObject.FindGameObjectsWithTag("MonsterTarget"));
-        targets.AddRange(GameObject.FindGameObjectsWithTag("Knight"));
-
+        GameObject[] targets = GameObject.FindGameObjectsWithTag("MonsterTarget");
 
         float closestDistance = Mathf.Infinity;
         Transform closest = null;
@@ -111,6 +116,15 @@ public abstract class Monster : MonoBehaviour, IDamageable
         }
 
         target = closest;
+    }
+
+    public void AggroTarget(Transform attacker)
+    {
+        if (!isDead && attacker != null)
+        {
+            target = attacker;
+            aggroTimer = aggroHoldTime;
+        }
     }
 
     protected abstract void MoveToTarget();

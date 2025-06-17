@@ -28,13 +28,15 @@ public class NormalMonster : Monster
     {
         if (isDead || target == null || agent == null) return;
 
-        agent.SetDestination(target.position);
-
         float dist = Vector3.Distance(transform.position, target.position);
 
         if (dist <= attackRange)
         {
+            agent.ResetPath();
+            transform.LookAt(target.position);
+
             attackTimer += Time.deltaTime;
+
             if (attackTimer >= attackInterval)
             {
                 attackTimer = 0f;
@@ -48,6 +50,7 @@ public class NormalMonster : Monster
         }
         else
         {
+            agent.SetDestination(target.position);
             attackTimer = 0f;
         }
     }

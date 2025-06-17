@@ -17,31 +17,30 @@ public class SuicideMonster : Monster
 
         float dist = Vector3.Distance(transform.position, target.position);
 
-        // 자폭 거리 안이면 자폭
         if (dist <= explodeRange)
         {
             isExploding = true;
-            StartCoroutine(ExplodeAfterDelay(explodeDelay));
-            return;
-        }
 
-        // 타겟을 향해 이동
-        agent.SetDestination(target.position);
+            if (agent != null && agent.isOnNavMesh) agent.ResetPath();
+
+            transform.LookAt(target.position);
+
+            StartCoroutine(ExplodeAfterDelay(explodeDelay));
+        }
+        else
+        {
+            agent.SetDestination(target.position);
+        }
     }
 
     private IEnumerator ExplodeAfterDelay(float delay)
     {
+        animator.SetTrigger("Attack");
+
         yield return new WaitForSeconds(delay);
 
-        if (target == null)
+        if (target != null && target.TryGetComponent<IDamageable>(out var damageable))
         {
-            MonsterDie();
-            yield break;
-        }
-
-        if (target.TryGetComponent<IDamageable>(out var damageable))
-        {
-            animator.SetTrigger("Attack");
             damageable.TakeDamage(explodeDamage);
         }
 
