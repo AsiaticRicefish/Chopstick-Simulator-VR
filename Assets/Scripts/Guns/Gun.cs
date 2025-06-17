@@ -23,7 +23,7 @@ public class Gun : MonoBehaviour
 
     [Header("Ammo")]
     public int maxAmmo = 10;
-    public int currentAmmo;
+    [HideInInspector] public int currentAmmo;
 
     [Header("Fire Control")]
     [SerializeField] float fireRate = 0.1f; // 연사 속도
@@ -33,7 +33,7 @@ public class Gun : MonoBehaviour
     [SerializeField] float reloadTime = 2f;
     [SerializeField] InputActionReference reloadAction;
     [SerializeField] private AudioSource reloadSound;
-    public bool isReloading = false;
+    [HideInInspector] public bool isReloading = false;
 
     private void Start()
     {
