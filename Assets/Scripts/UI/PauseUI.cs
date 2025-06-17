@@ -47,16 +47,22 @@ public class PauseUI : MonoBehaviour
     }
 
     public void ResumeGame()
-    {
-        pausePanel.SetActive(false);
+    {   
         Time.timeScale = 1f;
+
+        if (GameManager.Instance.leftRayInteractor != null) GameManager.Instance.leftRayInteractor.SetActive(false);
+        
+        pausePanel.SetActive(false);
         isPaused = false;
     }
 
     private void PauseGame()
     {
-        pausePanel.SetActive(true);
         Time.timeScale = 0f;
+
+        if (GameManager.Instance.leftRayInteractor != null) GameManager.Instance.leftRayInteractor.SetActive(true);
+
+        pausePanel.SetActive(true);
         isPaused = true;
     }
 }
