@@ -22,7 +22,7 @@ public class MonsterSpawn : MonoBehaviour
     [SerializeField] private List<MonsterSpawnData> monsterPrefabs;
     [SerializeField] private Transform[] spawnPoints;
 
-    private float spawnInterval = 5f;
+    private float spawnInterval = 3f;
     private float timer = 0f;
     private float elapsedTime = 0f;
 
