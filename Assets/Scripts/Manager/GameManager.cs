@@ -6,7 +6,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-    [SerializeField] private GameObject leftRayInteractor;
+    public GameObject leftRayInteractor;
 
     [SerializeField] private int monsterLimit = 10;
     [SerializeField] private float overflowCountdownTime = 10f;
@@ -23,6 +23,14 @@ public class GameManager : MonoBehaviour
 
     [Header("GameOver")]
     [SerializeField] private GameObject gameOverPanel;
+
+    [Header("BGM")]
+    [SerializeField] private AudioSource bgmSource;
+    [SerializeField] private AudioClip normalBGMClip;
+    [SerializeField] private AudioClip intenseBGMClip;
+
+    private float survivalTime = 0f;
+    [SerializeField] private TextMeshProUGUI survivalTimeText;
 
     private List<GameObject> activeMonsters = new List<GameObject>();
     private float overflowTimer = 0f;
@@ -45,45 +53,38 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        if (leftRayInteractor != null) leftRayInteractor.SetActive(true);
+        Time.timeScale = 1f;
+
+        if (leftRayInteractor != null) leftRayInteractor.SetActive(false);
+
+        if (bgmSource != null && normalBGMClip != null)
+        {
+            bgmSource.clip = normalBGMClip;
+            bgmSource.Play();
+        }
     }
 
     private void Update()
     {
-        if (leftRayInteractor != null)
+        if (!isGameOver)
         {
-            Ray ray = new Ray(leftRayInteractor.transform.position, leftRayInteractor.transform.forward);
-            if (Physics.Raycast(ray, out RaycastHit hit, 20f))
-            {
-                Debug.Log("Ray가 충돌한 오브젝트: " + hit.collider.name);
-            }
+            survivalTime += Time.deltaTime;
         }
-
 
         if (isOverflow)
         {
             overflowTimer -= Time.deltaTime;
 
-            int displayTime = Mathf.CeilToInt(overflowTimer); // 정수형으로 표시
+            int displayTime = Mathf.CeilToInt(overflowTimer);
 
             if (countdownText != null)
             {
                 countdownText.text = $"{displayTime}";
-                countdownText.color = Color.red;
-                countdownText.color = new Color(1f, 0f, 0f, Mathf.PingPong(Time.time * 2f, 1f));
             }
-                
+
             if (overflowTimer <= 0f)
             {
                 GameOver();
-            }
-            else
-            {
-                if (countdownText != null)
-                {
-                    countdownText.text = "";
-                }
-                    
             }
         }
         activeMonsters.RemoveAll(m => m == null);
@@ -156,11 +157,23 @@ public class GameManager : MonoBehaviour
     public void OnDefenseDestroyed()
     {
         destroyedDefenseCount++;
+
+        if (destroyedDefenseCount == 1)
+        {
+            if (bgmSource != null && intenseBGMClip != null)
+            {
+                bgmSource.Stop();
+                bgmSource.clip = intenseBGMClip;
+                bgmSource.Play();
+            }
+        }
+
         if (destroyedDefenseCount >= 2 && !isGameOver)
         {
             GameOver();
         }
     }
+
 
     private void GameOver()
     {
@@ -168,6 +181,16 @@ public class GameManager : MonoBehaviour
 
         Time.timeScale = 0f;
 
-        gameOverPanel.SetActive(true);
+        if (leftRayInteractor != null) leftRayInteractor.SetActive(true);
+        if (gameOverPanel != null) gameOverPanel.SetActive(true);
+
+        if (survivalTimeText != null)
+        {
+            int totalSeconds = Mathf.FloorToInt(survivalTime);
+            int minutes = totalSeconds / 60;
+            int seconds = totalSeconds % 60;
+
+            survivalTimeText.text = $"당신의 생존 시간: {minutes:00}:{seconds:00}";
+        }
     }
 }
