@@ -18,6 +18,8 @@ public class Knight : MonoBehaviour, IDamageable
     private NavMeshAgent agent;
     private Animator animator;
 
+    private bool isDead = false;
+
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -32,11 +34,13 @@ public class Knight : MonoBehaviour, IDamageable
 
     private void Update()
     {
+        if (isDead) return;
+
         attackTimer += Time.deltaTime;
 
         animator.SetFloat("Speed", agent.velocity.magnitude);
 
-        if (currentTarget == null)
+        if (currentTarget == null || !currentTarget.gameObject.activeInHierarchy)
         {
             currentTarget = FindClosestEnemy();
         }
@@ -52,6 +56,8 @@ public class Knight : MonoBehaviour, IDamageable
             else
             {
                 agent.ResetPath();
+                transform.LookAt(currentTarget.position);
+
                 if (attackTimer >= attackInterval)
                 {
                     animator.SetTrigger("Attack");
@@ -85,31 +91,46 @@ public class Knight : MonoBehaviour, IDamageable
 
     private void Attack(Transform target)
     {
+        if (isDead) return;
+
         if (target.TryGetComponent<IDamageable>(out var damageable))
         {
             damageable.TakeDamage(Power);
+
+            if (target.TryGetComponent<Monster>(out var monster))
+            {
+                monster.AggroTarget(transform);
+            }
         }
+      
     }
 
     public void TakeDamage(float amount)
     {
+        if (isDead) return;
+
         currentHealth -= amount;
 
         if (healthBar != null) healthBar.SetHealth(currentHealth, health);
 
         if (currentHealth <= 0)
         {
+            isDead = true;
+
+            agent.isStopped = true;
             animator.SetTrigger("IsDead");
+
+            Collider col = GetComponent<Collider>();
+            if (col != null) col.enabled = false;
+
+            if (healthBar != null) Destroy(healthBar.gameObject);
+
             StartCoroutine(DieAfterDelay(1f));
         }
     }
 
     private IEnumerator DieAfterDelay(float delay)
     {
-        agent.isStopped = true;
-
-        if (healthBar != null) Destroy(healthBar.gameObject);
-
         yield return new WaitForSeconds(delay);
         Destroy(gameObject);
     }
